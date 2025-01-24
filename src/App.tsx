@@ -79,9 +79,14 @@ export function App() {
           {transactions !== null && (
             <button
               className="RampButton"
-              disabled={paginatedTransactionsUtils.loading}
+              disabled={
+                paginatedTransactionsUtils.loading ||
+                (!!paginatedTransactions && !paginatedTransactions?.nextPage)
+              }
               onClick={async () => {
-                await loadAllTransactions()
+                if (paginatedTransactions?.nextPage) {
+                  await paginatedTransactionsUtils.fetchAll()
+                }
               }}
             >
               View More
